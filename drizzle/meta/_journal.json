@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1747473434971,
+      "tag": "0000_free_marvel_zombies",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1747477387910,
+      "tag": "0001_mean_maginty",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1747489879199,
+      "tag": "0002_curious_steel_serpent",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1747582476732,
+      "tag": "0003_luxuriant_eternals",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1747588650462,
+      "tag": "0004_needy_vulture",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+// app/api/notifications/[id]/read/route.ts
+import { NextResponse } from 'next/server';
+import db from '@/drizzle';
+import { notifications } from '@/drizzle/schema';
+import { eq, and } from 'drizzle-orm';
+import { getAuth } from '@/lib/auth';
+
+export async function PUT(request: Request, context: { params: { id: string } }) {
+  const { id } = await context.params;
+  const auth = await getAuth(request);
+  const userId = auth?.userId;
+
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  try {
+    await db.update(notifications)
+      .set({ isRead: true })
+      .where(
+        and(
+          eq(notifications.id, Number(id)),
+          eq(notifications.userId, Number(userId))
+        )
+      );
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error marking notification as read:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
