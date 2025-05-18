@@ -19,7 +19,7 @@ export async function GET() {
       })
       .from(usersTable)
       .innerJoin(employeeProfiles, eq(usersTable.id, employeeProfiles.userId))
-      .where(eq(usersTable.roleId, 2)); // Только работники
+      .where(eq(usersTable.roleId, 2));
 
     const employeeStats = await Promise.all(
       employees.map(async (employee) => {
@@ -30,7 +30,7 @@ export async function GET() {
           .where(
             and(
               eq(orders.employeeId, employee.id),
-              eq(orders.paymentStatusId, 2) // Оплаченные
+              eq(orders.paymentStatusId, 2)
             )
           );
 
@@ -43,8 +43,11 @@ export async function GET() {
 
     return NextResponse.json(
       employeeStats
-        .sort((a, b) => b.completedOrders - a.completedOrders)
-        .slice(0, 5) // Топ-5 сотрудников
+        .sort(
+          (a, b) =>
+            (Number(b.completedOrders) || 0) - (Number(a.completedOrders) || 0)
+        )
+        .slice(0, 5)
     );
   } catch (error) {
     console.error('Employee performance fetch error:', error);

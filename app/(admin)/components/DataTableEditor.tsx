@@ -23,7 +23,7 @@ export function DataTableEditor() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchData = async (tableName) => {
+  const fetchData = async (tableName: string) => {
     setLoading(true);
     try {
       const response = await fetch(`/api/admin/${tableName}`);
@@ -53,7 +53,7 @@ export function DataTableEditor() {
       toast.success('Изменения сохранены');
       fetchData(activeTab);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error instanceof Error ? error.message : 'Произошла ошибка');
     }
   };
 
@@ -72,10 +72,8 @@ export function DataTableEditor() {
           <TabsContent key={table.value} value={table.value}>
             <div className="rounded-md border">
               <DataTable 
-                columns={table.columns} 
+                columns={table.columns as any} 
                 data={data} 
-                onDataChange={setData}
-                loading={loading}
               />
             </div>
           </TabsContent>

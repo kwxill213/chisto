@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function EmployeePerformance() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

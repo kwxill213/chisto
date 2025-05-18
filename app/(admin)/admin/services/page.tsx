@@ -39,7 +39,7 @@ export default function ServicesPage() {
       setServices(services => services.filter(s => s.id !== id));
     }
   };
-
+ 
   const columns = [
     { accessorKey: 'id', header: 'ID', cell: (info: any) => info.getValue() },
     { accessorKey: 'name', header: 'Название', cell: (info: any) => info.getValue() },

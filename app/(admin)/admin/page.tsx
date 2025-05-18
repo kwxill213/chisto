@@ -67,9 +67,9 @@ export default function AdminDashboard() {
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-medium">Заказ #{order.id}</h3>
-                          <p className="text-sm text-gray-600">{typeof order.service === 'object' && 'name' in order.service ? order.service.name : String(order.service)} - {order.address}</p>
+                          <p className="text-sm text-gray-600">Адрес - {order.address}</p>
                           <p className="text-sm">
-                            Статус: <span className="font-medium">{order.status}</span>
+                            {/* Статус: <span className="font-medium">{typeof order.status === 'object' && 'description' in order.status ? order.status.description : String(order.status)}</span> */}
                           </p>
                           {order.employee && (
                             <p className="text-sm">

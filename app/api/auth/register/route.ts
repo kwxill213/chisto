@@ -48,7 +48,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Получаем ID роли клиента (предполагаем, что роль client имеет id = 1)
     const [clientRole] = await db
       .select()
       .from(userRoles)
@@ -70,11 +69,9 @@ export async function POST(req: Request) {
       password: hashedPassword,
       name,
       phone,
-      roleId: clientRole.id, // Устанавливаем роль клиента
-      isVerified: false,
+      roleId: clientRole.id,
     });
 
-    // Получаем только что созданного пользователя по email
     const [newUser] = await db
       .select()
       .from(usersTable)

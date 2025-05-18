@@ -26,7 +26,7 @@ export interface Service {
 }
 
 export interface PropertyType {
-  description: ReactNode;
+  description: string;
   id: number;
   name: string;
 }
@@ -39,8 +39,12 @@ export interface Order {
   address: string;
   date: string;
   totalPrice: number;
-  status: string;
+  status: {
+    id: number;
+    description: string;
+  };
   paymentStatus: string;
+  description: string;
 }
 
 export type User = {

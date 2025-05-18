@@ -5,8 +5,16 @@ import { DataTable } from '../../components/DataTable';
 import Link from 'next/link';
 import { Pencil, Trash2, Plus } from 'lucide-react';
 
+// Define a type for schedule events
+type ScheduleEvent = {
+  id: number;
+  title: string;
+  date: string;
+  // ...add other fields if needed
+};
+
 export default function SchedulePage() {
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<ScheduleEvent[]>([]);
   useEffect(() => {
     fetch('/api/admin/schedule')
       .then(res => res.json())
@@ -18,13 +26,26 @@ export default function SchedulePage() {
     setEvents(events => events.filter(e => e.id !== id));
   };
   const columns = [
-    { accessorKey: 'id', header: 'ID', cell: (info: any) => info.getValue() },
-    { accessorKey: 'title', header: 'Заголовок', cell: (info: any) => info.getValue() },
-    { accessorKey: 'date', header: 'Дата', cell: (info: any) => new Date(info.getValue()).toLocaleString('ru-RU') },
+    {
+      accessorKey: 'id',
+      header: 'ID',
+      cell: (info: import('@tanstack/react-table').CellContext<ScheduleEvent, unknown>) => info.getValue(),
+    },
+    {
+      accessorKey: 'title',
+      header: 'Заголовок',
+      cell: (info: import('@tanstack/react-table').CellContext<ScheduleEvent, unknown>) => info.getValue(),
+    },
+    {
+      accessorKey: 'date',
+      header: 'Дата',
+      cell: (info: import('@tanstack/react-table').CellContext<ScheduleEvent, unknown>) =>
+        new Date(info.getValue() as string).toLocaleString('ru-RU'),
+    },
     {
       id: 'actions',
       header: 'Действия',
-      cell: ({ row }: any) => (
+      cell: ({ row }: import('@tanstack/react-table').CellContext<ScheduleEvent, unknown>) => (
         <div className="flex gap-2">
           <Button size="sm" variant="outline" asChild>
             <Link href={`/admin/schedule/edit/${row.original.id}`}><Pencil className="w-4 h-4" /></Link>

@@ -3,10 +3,19 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '../../components/DataTable';
 import Link from 'next/link';
-import { Pencil, Trash2, Plus } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
+import type { CellContext } from '@tanstack/react-table';
+
+type AdminOrder = {
+  id: number;
+  user: string;
+  status: string;
+  totalPrice: number;
+  createdAt: string;
+};
 
 export default function OrdersPage() {
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<AdminOrder[]>([]);
   useEffect(() => {
     fetch('/api/admin/orders')
       .then(res => res.json())
@@ -18,15 +27,36 @@ export default function OrdersPage() {
     setOrders(orders => orders.filter(o => o.id !== id));
   };
   const columns = [
-    { accessorKey: 'id', header: 'ID', cell: (info: any) => info.getValue() },
-    { accessorKey: 'user', header: 'Клиент', cell: (info: any) => info.getValue() },
-    { accessorKey: 'status', header: 'Статус', cell: (info: any) => info.getValue() },
-    { accessorKey: 'totalPrice', header: 'Сумма', cell: (info: any) => info.getValue() + ' ₽' },
-    { accessorKey: 'createdAt', header: 'Создан', cell: (info: any) => new Date(info.getValue()).toLocaleDateString('ru-RU') },
+    {
+      accessorKey: 'id',
+      header: 'ID',
+      cell: (cell: CellContext<AdminOrder, unknown>) => cell.getValue() as number,
+    },
+    {
+      accessorKey: 'user',
+      header: 'Клиент',
+      cell: (cell: CellContext<AdminOrder, unknown>) => cell.getValue() as string,
+    },
+    {
+      accessorKey: 'status',
+      header: 'Статус',
+      cell: (cell: CellContext<AdminOrder, unknown>) => cell.getValue() as string,
+    },
+    {
+      accessorKey: 'totalPrice',
+      header: 'Сумма',
+      cell: (cell: CellContext<AdminOrder, unknown>) => (cell.getValue() as number) + ' ₽',
+    },
+    {
+      accessorKey: 'createdAt',
+      header: 'Создан',
+      cell: (cell: CellContext<AdminOrder, unknown>) =>
+        new Date(cell.getValue() as string).toLocaleDateString('ru-RU'),
+    },
     {
       id: 'actions',
       header: 'Действия',
-      cell: ({ row }: any) => (
+      cell: ({ row }: CellContext<AdminOrder, unknown>) => (
         <div className="flex gap-2">
           <Button size="sm" variant="outline" asChild>
             <Link href={`/admin/orders/edit/${row.original.id}`}><Pencil className="w-4 h-4" /></Link>

@@ -71,7 +71,6 @@ export async function POST(req: Request) {
       comments 
     } = await req.json();
 
-    // Валидация
     if (!serviceId || !address || !propertyType || !date || !totalPrice) {
       return NextResponse.json(
         { error: 'Не все обязательные поля заполнены' },
@@ -83,14 +82,14 @@ export async function POST(req: Request) {
       userId: auth.userId,
       serviceId: parseInt(serviceId),
       address,
-      propertyTypeId: parseInt(propertyType), // <-- исправлено!
+      propertyTypeId: parseInt(propertyType),
       rooms: rooms || null,
       square: square || null,
       date: new Date(date),
       totalPrice,
       comments: comments || null,
-      status: 'pending',
-      paymentStatus: 'unpaid',
+      statusId: 1,
+      paymentStatusId: 1,
     }).$returningId();
 
     return NextResponse.json(newOrder, { status: 201 });
