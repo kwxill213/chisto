@@ -58,7 +58,6 @@ export default function EditServicePage() {
     });
     setLoading(false);
     if (res.ok) router.push('/admin/services');
-    // Можно добавить обработку ошибок
   };
 
   return (

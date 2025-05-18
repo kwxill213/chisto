@@ -3,7 +3,19 @@ import db from '@/drizzle';
 import { orders, orderStatuses, usersTable,  } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
 
-export async function GET() {
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get('id');
+
+  if (id) {
+    // Получить один заказ по id
+    const data = await db
+      .select()
+      .from(orders)
+      .where(eq(orders.id, Number(id)));
+    return NextResponse.json(data[0] || null);
+  }
+
   const data = await db
     .select({
       id: orders.id,
@@ -32,12 +44,11 @@ export async function POST(req: Request) {
         userId, 
         statusId, 
         totalPrice, 
-        date: new Date(), // or get from request if needed
-        serviceId: 1, // replace with actual value or get from request
-        propertyTypeId: 1, // replace with actual value or get from request
-        address: '', // replace with actual value or get from request
-        square: 0 // replace with actual value or get from request
-        // add other required fields as needed
+        date: new Date(),
+        serviceId: 1,
+        propertyTypeId: 1,
+        address: '',
+        square: 0
       })
       .$returningId();
     return NextResponse.json(order);

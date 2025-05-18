@@ -28,7 +28,6 @@ export const getTableDefinitions = (): TableDefinition[] => [
       { accessorKey: 'name', header: 'Имя' },
       { accessorKey: 'phone', header: 'Телефон' },
       { accessorKey: 'roleId', header: 'Роль' },
-      { accessorKey: 'isVerified', header: 'Подтвержден' },
       { accessorKey: 'createdAt', header: 'Дата регистрации' },
     ],
   },
